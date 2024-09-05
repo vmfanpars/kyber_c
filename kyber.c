@@ -3,6 +3,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
+#include <time.h>
 
 #ifndef PARAMS_H
 #define PARAMS_H
@@ -22,8 +23,9 @@
 #error "KYBER_K must be in {2,3,4}"
 #endif
 
-#define KYBER_N 256
-#define KYBER_Q 3329
+// مقدار پارامترها بر اساس شکل 2 سند پیوست شده تنطیم شده است.
+#define KYBER_N 256   // 2 ^ 8 == 8 * 32
+#define KYBER_Q 3329   // a prime number
 
 #define KYBER_SYMBYTES 32   /* size in bytes of hashes, and seeds */
 #define KYBER_SSBYTES  32   /* size in bytes of shared key */
@@ -59,120 +61,43 @@
 
 #endif
 
-#ifndef KEM_H
-#define KEM_H
 #ifndef API_H
 #define API_H
 
-#define pqcrystals_kyber512_SECRETKEYBYTES 1632
-#define pqcrystals_kyber512_PUBLICKEYBYTES 800
-#define pqcrystals_kyber512_CIPHERTEXTBYTES 768
-#define pqcrystals_kyber512_KEYPAIRCOINBYTES 64
-#define pqcrystals_kyber512_ENCCOINBYTES 32
-#define pqcrystals_kyber512_BYTES 32
+/* اندازه پارامترهای مختلف در الگوریتم‌های کایبر 512، 768 و 1024.
+pqcrystals_kyber512_SECRETKEYBYTES 1632
+pqcrystals_kyber512_PUBLICKEYBYTES 800
+pqcrystals_kyber512_CIPHERTEXTBYTES 768
+pqcrystals_kyber512_KEYPAIRCOINBYTES 64
+pqcrystals_kyber512_ENCCOINBYTES 32
+pqcrystals_kyber512_BYTES 32
 
-#define pqcrystals_kyber512_ref_SECRETKEYBYTES pqcrystals_kyber512_SECRETKEYBYTES
-#define pqcrystals_kyber512_ref_PUBLICKEYBYTES pqcrystals_kyber512_PUBLICKEYBYTES
-#define pqcrystals_kyber512_ref_CIPHERTEXTBYTES pqcrystals_kyber512_CIPHERTEXTBYTES
-#define pqcrystals_kyber512_ref_KEYPAIRCOINBYTES pqcrystals_kyber512_KEYPAIRCOINBYTES
-#define pqcrystals_kyber512_ref_ENCCOINBYTES pqcrystals_kyber512_ENCCOINBYTES
-#define pqcrystals_kyber512_ref_BYTES pqcrystals_kyber512_BYTES
+pqcrystals_kyber768_SECRETKEYBYTES 2400
+pqcrystals_kyber768_PUBLICKEYBYTES 1184
+pqcrystals_kyber768_CIPHERTEXTBYTES 1088
+pqcrystals_kyber768_KEYPAIRCOINBYTES 64
+pqcrystals_kyber768_ENCCOINBYTES 32
+pqcrystals_kyber768_BYTES 32
 
-int pqcrystals_kyber512_ref_keypair_derand(uint8_t *pk, uint8_t *sk, const uint8_t *coins);
-int pqcrystals_kyber512_ref_keypair(uint8_t *pk, uint8_t *sk);
-int pqcrystals_kyber512_ref_enc_derand(uint8_t *ct, uint8_t *ss, const uint8_t *pk, const uint8_t *coins);
-int pqcrystals_kyber512_ref_enc(uint8_t *ct, uint8_t *ss, const uint8_t *pk);
-int pqcrystals_kyber512_ref_dec(uint8_t *ss, const uint8_t *ct, const uint8_t *sk);
-
-#define pqcrystals_kyber768_SECRETKEYBYTES 2400
-#define pqcrystals_kyber768_PUBLICKEYBYTES 1184
-#define pqcrystals_kyber768_CIPHERTEXTBYTES 1088
-#define pqcrystals_kyber768_KEYPAIRCOINBYTES 64
-#define pqcrystals_kyber768_ENCCOINBYTES 32
-#define pqcrystals_kyber768_BYTES 32
-
-#define pqcrystals_kyber768_ref_SECRETKEYBYTES pqcrystals_kyber768_SECRETKEYBYTES
-#define pqcrystals_kyber768_ref_PUBLICKEYBYTES pqcrystals_kyber768_PUBLICKEYBYTES
-#define pqcrystals_kyber768_ref_CIPHERTEXTBYTES pqcrystals_kyber768_CIPHERTEXTBYTES
-#define pqcrystals_kyber768_ref_KEYPAIRCOINBYTES pqcrystals_kyber768_KEYPAIRCOINBYTES
-#define pqcrystals_kyber768_ref_ENCCOINBYTES pqcrystals_kyber768_ENCCOINBYTES
-#define pqcrystals_kyber768_ref_BYTES pqcrystals_kyber768_BYTES
-
-int pqcrystals_kyber768_ref_keypair_derand(uint8_t *pk, uint8_t *sk, const uint8_t *coins);
-int pqcrystals_kyber768_ref_keypair(uint8_t *pk, uint8_t *sk);
-int pqcrystals_kyber768_ref_enc_derand(uint8_t *ct, uint8_t *ss, const uint8_t *pk, const uint8_t *coins);
-int pqcrystals_kyber768_ref_enc(uint8_t *ct, uint8_t *ss, const uint8_t *pk);
-int pqcrystals_kyber768_ref_dec(uint8_t *ss, const uint8_t *ct, const uint8_t *sk);
-
-#define pqcrystals_kyber1024_SECRETKEYBYTES 3168
-#define pqcrystals_kyber1024_PUBLICKEYBYTES 1568
-#define pqcrystals_kyber1024_CIPHERTEXTBYTES 1568
-#define pqcrystals_kyber1024_KEYPAIRCOINBYTES 64
-#define pqcrystals_kyber1024_ENCCOINBYTES 32
-#define pqcrystals_kyber1024_BYTES 32
-
-#define pqcrystals_kyber1024_ref_SECRETKEYBYTES pqcrystals_kyber1024_SECRETKEYBYTES
-#define pqcrystals_kyber1024_ref_PUBLICKEYBYTES pqcrystals_kyber1024_PUBLICKEYBYTES
-#define pqcrystals_kyber1024_ref_CIPHERTEXTBYTES pqcrystals_kyber1024_CIPHERTEXTBYTES
-#define pqcrystals_kyber1024_ref_KEYPAIRCOINBYTES pqcrystals_kyber1024_KEYPAIRCOINBYTES
-#define pqcrystals_kyber1024_ref_ENCCOINBYTES pqcrystals_kyber1024_ENCCOINBYTES
-#define pqcrystals_kyber1024_ref_BYTES pqcrystals_kyber1024_BYTES
-
-int pqcrystals_kyber1024_ref_keypair_derand(uint8_t *pk, uint8_t *sk, const uint8_t *coins);
-int pqcrystals_kyber1024_ref_keypair(uint8_t *pk, uint8_t *sk);
-int pqcrystals_kyber1024_ref_enc_derand(uint8_t *ct, uint8_t *ss, const uint8_t *pk, const uint8_t *coins);
-int pqcrystals_kyber1024_ref_enc(uint8_t *ct, uint8_t *ss, const uint8_t *pk);
-int pqcrystals_kyber1024_ref_dec(uint8_t *ss, const uint8_t *ct, const uint8_t *sk);
+pqcrystals_kyber1024_SECRETKEYBYTES 3168
+pqcrystals_kyber1024_PUBLICKEYBYTES 1568
+pqcrystals_kyber1024_CIPHERTEXTBYTES 1568
+pqcrystals_kyber1024_KEYPAIRCOINBYTES 64
+pqcrystals_kyber1024_ENCCOINBYTES 32
+pqcrystals_kyber1024_BYTES 32
+*/
 
 #endif
 
-
-#define CRYPTO_SECRETKEYBYTES  KYBER_SECRETKEYBYTES
-#define CRYPTO_PUBLICKEYBYTES  KYBER_PUBLICKEYBYTES
-#define CRYPTO_CIPHERTEXTBYTES KYBER_CIPHERTEXTBYTES
-#define CRYPTO_BYTES           KYBER_SSBYTES
-
-#if   (KYBER_K == 2)
-#define CRYPTO_ALGNAME "Kyber512"
-#elif (KYBER_K == 3)
-#define CRYPTO_ALGNAME "Kyber768"
-#elif (KYBER_K == 4)
-#define CRYPTO_ALGNAME "Kyber1024"
-#endif
-
-// #define crypto_kem_keypair_derand KYBER_NAMESPACE(keypair_derand)
-int crypto_kem_keypair_derand(uint8_t *pk, uint8_t *sk, const uint8_t *coins);
-
-// #define crypto_kem_keypair KYBER_NAMESPACE(keypair)
-// #define crypto_kem_keypair pqcrystals_kyber768_ref_keypair
-int crypto_kem_keypair(uint8_t *pk, uint8_t *sk);
-
-// #define crypto_kem_enc_derand KYBER_NAMESPACE(enc_derand)
-int crypto_kem_enc_derand(uint8_t *ct, uint8_t *ss, const uint8_t *pk, const uint8_t *coins);
-
-// #define crypto_kem_enc KYBER_NAMESPACE(enc)
-// #define crypto_kem_enc pqcrystals_kyber768_ref_enc
-int crypto_kem_enc(uint8_t *ct, uint8_t *ss, const uint8_t *pk);
-
-// #define crypto_kem_dec KYBER_NAMESPACE(dec)
-int crypto_kem_dec(uint8_t *ss, const uint8_t *ct, const uint8_t *sk);
-
-#endif
 
 #ifndef VERIFY_H
 #define VERIFY_H
 
-// #define verify KYBER_NAMESPACE(verify)
 int verify(const uint8_t *a, const uint8_t *b, size_t len);
-
-// #define cmov KYBER_NAMESPACE(cmov)
 void cmov(uint8_t *r, const uint8_t *x, size_t len, uint8_t b);
-
-// #define cmov_int16 KYBER_NAMESPACE(cmov_int16)
 void cmov_int16(int16_t *r, int16_t v, uint16_t b);
 
 #endif
-
 
 /*************************************************
 * Name:        verify
@@ -253,63 +178,39 @@ void cmov_int16(int16_t *r, int16_t v, uint16_t b)
  * implementation from https://twitter.com/tweetfips202 by Gilles Van Assche, Daniel J. Bernstein,
  * and Peter Schwabe */
 
-#include <stddef.h>
-#include <stdint.h>
 #ifndef FIPS202_H
 #define FIPS202_H
-
-#include <stddef.h>
-#include <stdint.h>
 
 #define SHAKE128_RATE 168
 #define SHAKE256_RATE 136
 #define SHA3_256_RATE 136
 #define SHA3_512_RATE 72
 
-// #define FIPS202_NAMESPACE(s) pqcrystals_kyber_fips202_ref_##s
-
 typedef struct {
   uint64_t s[25];
   unsigned int pos;
 } keccak_state;
 
-// #define shake128_init FIPS202_NAMESPACE(shake128_init)
 void shake128_init(keccak_state *state);
-// #define shake128_absorb FIPS202_NAMESPACE(shake128_absorb)
 void shake128_absorb(keccak_state *state, const uint8_t *in, size_t inlen);
-// #define shake128_finalize FIPS202_NAMESPACE(shake128_finalize)
 void shake128_finalize(keccak_state *state);
-// #define shake128_squeeze FIPS202_NAMESPACE(shake128_squeeze)
 void shake128_squeeze(uint8_t *out, size_t outlen, keccak_state *state);
-// #define shake128_absorb_once FIPS202_NAMESPACE(shake128_absorb_once)
 void shake128_absorb_once(keccak_state *state, const uint8_t *in, size_t inlen);
-// #define shake128_squeezeblocks FIPS202_NAMESPACE(shake128_squeezeblocks)
 void shake128_squeezeblocks(uint8_t *out, size_t nblocks, keccak_state *state);
 
-// #define shake256_init FIPS202_NAMESPACE(shake256_init)
 void shake256_init(keccak_state *state);
-// #define shake256_absorb FIPS202_NAMESPACE(shake256_absorb)
 void shake256_absorb(keccak_state *state, const uint8_t *in, size_t inlen);
-// #define shake256_finalize FIPS202_NAMESPACE(shake256_finalize)
 void shake256_finalize(keccak_state *state);
-// #define shake256_squeeze FIPS202_NAMESPACE(shake256_squeeze)
 void shake256_squeeze(uint8_t *out, size_t outlen, keccak_state *state);
-// #define shake256_absorb_once FIPS202_NAMESPACE(shake256_absorb_once)
 void shake256_absorb_once(keccak_state *state, const uint8_t *in, size_t inlen);
-// #define shake256_squeezeblocks FIPS202_NAMESPACE(shake256_squeezeblocks)
 void shake256_squeezeblocks(uint8_t *out, size_t nblocks,  keccak_state *state);
 
-// #define shake128 FIPS202_NAMESPACE(shake128)
 void shake128(uint8_t *out, size_t outlen, const uint8_t *in, size_t inlen);
-// #define shake256 FIPS202_NAMESPACE(shake256)
 void shake256(uint8_t *out, size_t outlen, const uint8_t *in, size_t inlen);
-// #define sha3_256 FIPS202_NAMESPACE(sha3_256)
 void sha3_256(uint8_t h[32], const uint8_t *in, size_t inlen);
-// #define sha3_512 FIPS202_NAMESPACE(sha3_512)
 void sha3_512(uint8_t h[64], const uint8_t *in, size_t inlen);
 
 #endif
-
 
 #define NROUNDS 24
 #define ROL(a, offset) ((a << offset) ^ (a >> (64-offset)))
@@ -1080,16 +981,8 @@ void sha3_512(uint8_t h[64], const uint8_t *in, size_t inlen)
 
 typedef keccak_state xof_state;
 
-// #define kyber_shake128_absorb KYBER_NAMESPACE(kyber_shake128_absorb)
-void kyber_shake128_absorb(keccak_state *s,
-                           const uint8_t seed[KYBER_SYMBYTES],
-                           uint8_t x,
-                           uint8_t y);
-
-// #define kyber_shake256_prf KYBER_NAMESPACE(kyber_shake256_prf)
+void kyber_shake128_absorb(keccak_state *s, const uint8_t seed[KYBER_SYMBYTES], uint8_t x, uint8_t y);
 void kyber_shake256_prf(uint8_t *out, size_t outlen, const uint8_t key[KYBER_SYMBYTES], uint8_t nonce);
-
-// #define kyber_shake256_rkprf KYBER_NAMESPACE(kyber_shake256_rkprf)
 void kyber_shake256_rkprf(uint8_t out[KYBER_SSBYTES], const uint8_t key[KYBER_SYMBYTES], const uint8_t input[KYBER_CIPHERTEXTBYTES]);
 
 #define XOF_BLOCKBYTES SHAKE128_RATE
@@ -1103,8 +996,6 @@ void kyber_shake256_rkprf(uint8_t out[KYBER_SSBYTES], const uint8_t key[KYBER_SY
 
 #endif /* SYMMETRIC_H */
 
-
-
 /*************************************************
 * Name:        kyber_shake128_absorb
 *
@@ -1115,10 +1006,7 @@ void kyber_shake256_rkprf(uint8_t out[KYBER_SSBYTES], const uint8_t key[KYBER_SY
 *              - uint8_t i: additional byte of input
 *              - uint8_t j: additional byte of input
 **************************************************/
-void kyber_shake128_absorb(keccak_state *state,
-                           const uint8_t seed[KYBER_SYMBYTES],
-                           uint8_t x,
-                           uint8_t y)
+void kyber_shake128_absorb(keccak_state *state, const uint8_t seed[KYBER_SYMBYTES], uint8_t x, uint8_t y)
 {
   uint8_t extseed[KYBER_SYMBYTES+2];
 
@@ -1172,168 +1060,6 @@ void kyber_shake256_rkprf(uint8_t out[KYBER_SSBYTES], const uint8_t key[KYBER_SY
   shake256_squeeze(out, KYBER_SSBYTES, &s);
 }
 
-/*************************************************
-* Name:        crypto_kem_keypair_derand
-*
-* Description: Generates public and private key
-*              for CCA-secure Kyber key encapsulation mechanism
-*
-* Arguments:   - uint8_t *pk: pointer to output public key
-*                (an already allocated array of KYBER_PUBLICKEYBYTES bytes)
-*              - uint8_t *sk: pointer to output private key
-*                (an already allocated array of KYBER_SECRETKEYBYTES bytes)
-*              - uint8_t *coins: pointer to input randomness
-*                (an already allocated array filled with 2*KYBER_SYMBYTES random bytes)
-**
-* Returns 0 (success)
-**************************************************/
-int crypto_kem_keypair_derand(uint8_t *pk,
-                              uint8_t *sk,
-                              const uint8_t *coins)
-{
-  indcpa_keypair_derand(pk, sk, coins);
-  memcpy(sk+KYBER_INDCPA_SECRETKEYBYTES, pk, KYBER_PUBLICKEYBYTES);
-  hash_h(sk+KYBER_SECRETKEYBYTES-2*KYBER_SYMBYTES, pk, KYBER_PUBLICKEYBYTES);
-  /* Value z for pseudo-random output on reject */
-  memcpy(sk+KYBER_SECRETKEYBYTES-KYBER_SYMBYTES, coins+KYBER_SYMBYTES, KYBER_SYMBYTES);
-  return 0;
-}
-
-/*************************************************
-* Name:        crypto_kem_keypair
-*
-* Description: Generates public and private key
-*              for CCA-secure Kyber key encapsulation mechanism
-*
-* Arguments:   - uint8_t *pk: pointer to output public key
-*                (an already allocated array of KYBER_PUBLICKEYBYTES bytes)
-*              - uint8_t *sk: pointer to output private key
-*                (an already allocated array of KYBER_SECRETKEYBYTES bytes)
-*
-* Returns 0 (success)
-**************************************************/
-int crypto_kem_keypair(uint8_t *pk,
-                       uint8_t *sk)
-{
-  uint8_t coins[2*KYBER_SYMBYTES];
-  randombytes(coins, 2*KYBER_SYMBYTES);
-  crypto_kem_keypair_derand(pk, sk, coins);
-  return 0;
-}
-
-/*************************************************
-* Name:        crypto_kem_enc_derand
-*
-* Description: Generates cipher text and shared
-*              secret for given public key
-*
-* Arguments:   - uint8_t *ct: pointer to output cipher text
-*                (an already allocated array of KYBER_CIPHERTEXTBYTES bytes)
-*              - uint8_t *ss: pointer to output shared secret
-*                (an already allocated array of KYBER_SSBYTES bytes)
-*              - const uint8_t *pk: pointer to input public key
-*                (an already allocated array of KYBER_PUBLICKEYBYTES bytes)
-*              - const uint8_t *coins: pointer to input randomness
-*                (an already allocated array filled with KYBER_SYMBYTES random bytes)
-**
-* Returns 0 (success)
-**************************************************/
-int crypto_kem_enc_derand(uint8_t *ct,
-                          uint8_t *ss,
-                          const uint8_t *pk,
-                          const uint8_t *coins)
-{
-  uint8_t buf[2*KYBER_SYMBYTES];
-  /* Will contain key, coins */
-  uint8_t kr[2*KYBER_SYMBYTES];
-
-  memcpy(buf, coins, KYBER_SYMBYTES);
-
-  /* Multitarget countermeasure for coins + contributory KEM */
-  hash_h(buf+KYBER_SYMBYTES, pk, KYBER_PUBLICKEYBYTES);
-  hash_g(kr, buf, 2*KYBER_SYMBYTES);
-
-  /* coins are in kr+KYBER_SYMBYTES */
-  indcpa_enc(ct, buf, pk, kr+KYBER_SYMBYTES);
-
-  memcpy(ss,kr,KYBER_SYMBYTES);
-  return 0;
-}
-
-/*************************************************
-* Name:        crypto_kem_enc
-*
-* Description: Generates cipher text and shared
-*              secret for given public key
-*
-* Arguments:   - uint8_t *ct: pointer to output cipher text
-*                (an already allocated array of KYBER_CIPHERTEXTBYTES bytes)
-*              - uint8_t *ss: pointer to output shared secret
-*                (an already allocated array of KYBER_SSBYTES bytes)
-*              - const uint8_t *pk: pointer to input public key
-*                (an already allocated array of KYBER_PUBLICKEYBYTES bytes)
-*
-* Returns 0 (success)
-**************************************************/
-int crypto_kem_enc(uint8_t *ct,
-                   uint8_t *ss,
-                   const uint8_t *pk)
-{
-  uint8_t coins[KYBER_SYMBYTES];
-  randombytes(coins, KYBER_SYMBYTES);
-  crypto_kem_enc_derand(ct, ss, pk, coins);
-  return 0;
-}
-
-/*************************************************
-* Name:        crypto_kem_dec
-*
-* Description: Generates shared secret for given
-*              cipher text and private key
-*
-* Arguments:   - uint8_t *ss: pointer to output shared secret
-*                (an already allocated array of KYBER_SSBYTES bytes)
-*              - const uint8_t *ct: pointer to input cipher text
-*                (an already allocated array of KYBER_CIPHERTEXTBYTES bytes)
-*              - const uint8_t *sk: pointer to input private key
-*                (an already allocated array of KYBER_SECRETKEYBYTES bytes)
-*
-* Returns 0.
-*
-* On failure, ss will contain a pseudo-random value.
-**************************************************/
-int crypto_kem_dec(uint8_t *ss,
-                   const uint8_t *ct,
-                   const uint8_t *sk)
-{
-  int fail;
-  uint8_t buf[2*KYBER_SYMBYTES];
-  /* Will contain key, coins */
-  uint8_t kr[2*KYBER_SYMBYTES];
-  uint8_t cmp[KYBER_CIPHERTEXTBYTES+KYBER_SYMBYTES];
-  const uint8_t *pk = sk+KYBER_INDCPA_SECRETKEYBYTES;
-
-  indcpa_dec(buf, ct, sk);
-
-  /* Multitarget countermeasure for coins + contributory KEM */
-  memcpy(buf+KYBER_SYMBYTES, sk+KYBER_SECRETKEYBYTES-2*KYBER_SYMBYTES, KYBER_SYMBYTES);
-  hash_g(kr, buf, 2*KYBER_SYMBYTES);
-
-  /* coins are in kr+KYBER_SYMBYTES */
-  indcpa_enc(cmp, buf, pk, kr+KYBER_SYMBYTES);
-
-  fail = verify(ct, cmp, KYBER_CIPHERTEXTBYTES);
-
-  /* Compute rejection key */
-  rkprf(ss,sk+KYBER_SECRETKEYBYTES-KYBER_SYMBYTES,ct);
-
-  /* Copy true key to return buffer if fail is false */
-  cmov(ss,kr,KYBER_SYMBYTES,!fail);
-
-  return 0;
-}
-
-
 #ifndef POLY_H
 #define POLY_H
 
@@ -1345,60 +1071,40 @@ typedef struct{
   int16_t coeffs[KYBER_N];
 } poly;
 
-// #define poly_compress KYBER_NAMESPACE(poly_compress)
 void poly_compress(uint8_t r[KYBER_POLYCOMPRESSEDBYTES], const poly *a);
-// #define poly_decompress KYBER_NAMESPACE(poly_decompress)
 void poly_decompress(poly *r, const uint8_t a[KYBER_POLYCOMPRESSEDBYTES]);
 
-// #define poly_tobytes KYBER_NAMESPACE(poly_tobytes)
 void poly_tobytes(uint8_t r[KYBER_POLYBYTES], const poly *a);
-// #define poly_frombytes KYBER_NAMESPACE(poly_frombytes)
 void poly_frombytes(poly *r, const uint8_t a[KYBER_POLYBYTES]);
 
-// #define poly_frommsg KYBER_NAMESPACE(poly_frommsg)
 void poly_frommsg(poly *r, const uint8_t msg[KYBER_INDCPA_MSGBYTES]);
-// #define poly_tomsg KYBER_NAMESPACE(poly_tomsg)
 void poly_tomsg(uint8_t msg[KYBER_INDCPA_MSGBYTES], const poly *r);
 
-// #define poly_getnoise_eta1 KYBER_NAMESPACE(poly_getnoise_eta1)
 void poly_getnoise_eta1(poly *r, const uint8_t seed[KYBER_SYMBYTES], uint8_t nonce);
 
-// #define poly_getnoise_eta2 KYBER_NAMESPACE(poly_getnoise_eta2)
 void poly_getnoise_eta2(poly *r, const uint8_t seed[KYBER_SYMBYTES], uint8_t nonce);
 
-// #define poly_ntt KYBER_NAMESPACE(poly_ntt)
 void poly_ntt(poly *r);
-// #define poly_invntt_tomont KYBER_NAMESPACE(poly_invntt_tomont)
 void poly_invntt_tomont(poly *r);
-// #define poly_basemul_montgomery KYBER_NAMESPACE(poly_basemul_montgomery)
 void poly_basemul_montgomery(poly *r, const poly *a, const poly *b);
-// #define poly_tomont KYBER_NAMESPACE(poly_tomont)
 void poly_tomont(poly *r);
 
-// #define poly_reduce KYBER_NAMESPACE(poly_reduce)
 void poly_reduce(poly *r);
 
-// #define poly_add KYBER_NAMESPACE(poly_add)
 void poly_add(poly *r, const poly *a, const poly *b);
-// #define poly_sub KYBER_NAMESPACE(poly_sub)
 void poly_sub(poly *r, const poly *a, const poly *b);
 
 #endif
 
-
 #ifndef NTT_H
 #define NTT_H
 
-// #define zetas KYBER_NAMESPACE(zetas)
 extern const int16_t zetas[128];
 
-// #define ntt KYBER_NAMESPACE(ntt)
 void ntt(int16_t poly[256]);
 
-// #define invntt KYBER_NAMESPACE(invntt)
 void invntt(int16_t poly[256]);
 
-// #define basemul KYBER_NAMESPACE(basemul)
 void basemul(int16_t r[2], const int16_t a[2], const int16_t b[2], int16_t zeta);
 
 #endif
@@ -1409,10 +1115,8 @@ void basemul(int16_t r[2], const int16_t a[2], const int16_t b[2], int16_t zeta)
 #define MONT -1044 // 2^16 mod q
 #define QINV -3327 // q^-1 mod 2^16
 
-// #define montgomery_reduce KYBER_NAMESPACE(montgomery_reduce)
 int16_t montgomery_reduce(int32_t a);
 
-// #define barrett_reduce KYBER_NAMESPACE(barrett_reduce)
 int16_t barrett_reduce(int16_t a);
 
 #endif
@@ -2101,49 +1805,35 @@ typedef struct{
   poly vec[KYBER_K];
 } polyvec;
 
-// #define polyvec_compress KYBER_NAMESPACE(polyvec_compress)
 void polyvec_compress(uint8_t r[KYBER_POLYVECCOMPRESSEDBYTES], const polyvec *a);
-// #define polyvec_decompress KYBER_NAMESPACE(polyvec_decompress)
 void polyvec_decompress(polyvec *r, const uint8_t a[KYBER_POLYVECCOMPRESSEDBYTES]);
 
-// #define polyvec_tobytes KYBER_NAMESPACE(polyvec_tobytes)
 void polyvec_tobytes(uint8_t r[KYBER_POLYVECBYTES], const polyvec *a);
-// #define polyvec_frombytes KYBER_NAMESPACE(polyvec_frombytes)
 void polyvec_frombytes(polyvec *r, const uint8_t a[KYBER_POLYVECBYTES]);
 
-// #define polyvec_ntt KYBER_NAMESPACE(polyvec_ntt)
 void polyvec_ntt(polyvec *r);
-// #define polyvec_invntt_tomont KYBER_NAMESPACE(polyvec_invntt_tomont)
 void polyvec_invntt_tomont(polyvec *r);
 
-// #define polyvec_basemul_acc_montgomery KYBER_NAMESPACE(polyvec_basemul_acc_montgomery)
 void polyvec_basemul_acc_montgomery(poly *r, const polyvec *a, const polyvec *b);
 
-// #define polyvec_reduce KYBER_NAMESPACE(polyvec_reduce)
 void polyvec_reduce(polyvec *r);
 
-// #define polyvec_add KYBER_NAMESPACE(polyvec_add)
 void polyvec_add(polyvec *r, const polyvec *a, const polyvec *b);
 
 #endif
 
 
-// #define gen_matrix KYBER_NAMESPACE(gen_matrix)
 void gen_matrix(polyvec *a, const uint8_t seed[KYBER_SYMBYTES], int transposed);
 
-// #define indcpa_keypair_derand KYBER_NAMESPACE(indcpa_keypair_derand)
-// #define indcpa_keypair_derand pqcrystals_kyber768_ref_indcpa_keypair_derand
 void indcpa_keypair_derand(uint8_t pk[KYBER_INDCPA_PUBLICKEYBYTES],
                            uint8_t sk[KYBER_INDCPA_SECRETKEYBYTES],
                            const uint8_t coins[KYBER_SYMBYTES]);
 
-// #define indcpa_enc KYBER_NAMESPACE(indcpa_enc)
 void indcpa_enc(uint8_t c[KYBER_INDCPA_BYTES],
                 const uint8_t m[KYBER_INDCPA_MSGBYTES],
                 const uint8_t pk[KYBER_INDCPA_PUBLICKEYBYTES],
                 const uint8_t coins[KYBER_SYMBYTES]);
 
-// #define indcpa_dec KYBER_NAMESPACE(indcpa_dec)
 void indcpa_dec(uint8_t m[KYBER_INDCPA_MSGBYTES],
                 const uint8_t c[KYBER_INDCPA_BYTES],
                 const uint8_t sk[KYBER_INDCPA_SECRETKEYBYTES]);
@@ -2717,7 +2407,6 @@ void polyvec_add(polyvec *r, const polyvec *a, const polyvec *b)
 }
 
 
-
 #ifdef _WIN32
 #include <windows.h>
 #include <wincrypt.h>
@@ -2810,6 +2499,190 @@ void randombytes(uint8_t *out, size_t outlen) {
 }
 #endif
 
+#ifndef KEM_H
+#define KEM_H
+
+#define CRYPTO_SECRETKEYBYTES  KYBER_SECRETKEYBYTES
+#define CRYPTO_PUBLICKEYBYTES  KYBER_PUBLICKEYBYTES
+#define CRYPTO_CIPHERTEXTBYTES KYBER_CIPHERTEXTBYTES
+#define CRYPTO_BYTES           KYBER_SSBYTES
+
+#if   (KYBER_K == 2)
+#define CRYPTO_ALGNAME "Kyber512"
+#elif (KYBER_K == 3)
+#define CRYPTO_ALGNAME "Kyber768"
+#elif (KYBER_K == 4)
+#define CRYPTO_ALGNAME "Kyber1024"
+#endif
+
+int crypto_kem_keypair_derand(uint8_t *pk, uint8_t *sk, const uint8_t *coins);
+int crypto_kem_keypair(uint8_t *pk, uint8_t *sk);
+int crypto_kem_enc_derand(uint8_t *ct, uint8_t *ss, const uint8_t *pk, const uint8_t *coins);
+int crypto_kem_enc(uint8_t *ct, uint8_t *ss, const uint8_t *pk);
+int crypto_kem_dec(uint8_t *ss, const uint8_t *ct, const uint8_t *sk);
+
+#endif
+
+/*************************************************
+* Name:        crypto_kem_keypair_derand
+*
+* Description: Generates public and private key
+*              for CCA-secure Kyber key encapsulation mechanism
+*
+* Arguments:   - uint8_t *pk: pointer to output public key
+*                (an already allocated array of KYBER_PUBLICKEYBYTES bytes)
+*              - uint8_t *sk: pointer to output private key
+*                (an already allocated array of KYBER_SECRETKEYBYTES bytes)
+*              - uint8_t *coins: pointer to input randomness
+*                (an already allocated array filled with 2*KYBER_SYMBYTES random bytes)
+**
+* Returns 0 (success)
+**************************************************/
+int crypto_kem_keypair_derand(uint8_t *pk,
+                              uint8_t *sk,
+                              const uint8_t *coins)
+{
+  indcpa_keypair_derand(pk, sk, coins);
+  memcpy(sk+KYBER_INDCPA_SECRETKEYBYTES, pk, KYBER_PUBLICKEYBYTES);
+  hash_h(sk+KYBER_SECRETKEYBYTES-2*KYBER_SYMBYTES, pk, KYBER_PUBLICKEYBYTES);
+  /* Value z for pseudo-random output on reject */
+  memcpy(sk+KYBER_SECRETKEYBYTES-KYBER_SYMBYTES, coins+KYBER_SYMBYTES, KYBER_SYMBYTES);
+  return 0;
+}
+
+/*************************************************
+* Name:        crypto_kem_keypair
+*
+* Description: Generates public and private key
+*              for CCA-secure Kyber key encapsulation mechanism
+*
+* Arguments:   - uint8_t *pk: pointer to output public key
+*                (an already allocated array of KYBER_PUBLICKEYBYTES bytes)
+*              - uint8_t *sk: pointer to output private key
+*                (an already allocated array of KYBER_SECRETKEYBYTES bytes)
+*
+* Returns 0 (success)
+**************************************************/
+int crypto_kem_keypair(uint8_t *pk,
+                       uint8_t *sk)
+{
+  uint8_t coins[2*KYBER_SYMBYTES];
+  randombytes(coins, 2*KYBER_SYMBYTES);
+  crypto_kem_keypair_derand(pk, sk, coins);
+  return 0;
+}
+
+/*************************************************
+* Name:        crypto_kem_enc_derand
+*
+* Description: Generates cipher text and shared
+*              secret for given public key
+*
+* Arguments:   - uint8_t *ct: pointer to output cipher text
+*                (an already allocated array of KYBER_CIPHERTEXTBYTES bytes)
+*              - uint8_t *ss: pointer to output shared secret
+*                (an already allocated array of KYBER_SSBYTES bytes)
+*              - const uint8_t *pk: pointer to input public key
+*                (an already allocated array of KYBER_PUBLICKEYBYTES bytes)
+*              - const uint8_t *coins: pointer to input randomness
+*                (an already allocated array filled with KYBER_SYMBYTES random bytes)
+**
+* Returns 0 (success)
+**************************************************/
+int crypto_kem_enc_derand(uint8_t *ct,
+                          uint8_t *ss,
+                          const uint8_t *pk,
+                          const uint8_t *coins)
+{
+  uint8_t buf[2*KYBER_SYMBYTES];
+  /* Will contain key, coins */
+  uint8_t kr[2*KYBER_SYMBYTES];
+
+  memcpy(buf, coins, KYBER_SYMBYTES);
+
+  /* Multitarget countermeasure for coins + contributory KEM */
+  hash_h(buf+KYBER_SYMBYTES, pk, KYBER_PUBLICKEYBYTES);
+  hash_g(kr, buf, 2*KYBER_SYMBYTES);
+
+  /* coins are in kr+KYBER_SYMBYTES */
+  indcpa_enc(ct, buf, pk, kr+KYBER_SYMBYTES);
+
+  memcpy(ss,kr,KYBER_SYMBYTES);
+  return 0;
+}
+
+/*************************************************
+* Name:        crypto_kem_enc
+*
+* Description: Generates cipher text and shared
+*              secret for given public key
+*
+* Arguments:   - uint8_t *ct: pointer to output cipher text
+*                (an already allocated array of KYBER_CIPHERTEXTBYTES bytes)
+*              - uint8_t *ss: pointer to output shared secret
+*                (an already allocated array of KYBER_SSBYTES bytes)
+*              - const uint8_t *pk: pointer to input public key
+*                (an already allocated array of KYBER_PUBLICKEYBYTES bytes)
+*
+* Returns 0 (success)
+**************************************************/
+int crypto_kem_enc(uint8_t *ct,
+                   uint8_t *ss,
+                   const uint8_t *pk)
+{
+  uint8_t coins[KYBER_SYMBYTES];
+  randombytes(coins, KYBER_SYMBYTES);
+  crypto_kem_enc_derand(ct, ss, pk, coins);
+  return 0;
+}
+
+/*************************************************
+* Name:        crypto_kem_dec
+*
+* Description: Generates shared secret for given
+*              cipher text and private key
+*
+* Arguments:   - uint8_t *ss: pointer to output shared secret
+*                (an already allocated array of KYBER_SSBYTES bytes)
+*              - const uint8_t *ct: pointer to input cipher text
+*                (an already allocated array of KYBER_CIPHERTEXTBYTES bytes)
+*              - const uint8_t *sk: pointer to input private key
+*                (an already allocated array of KYBER_SECRETKEYBYTES bytes)
+*
+* Returns 0.
+*
+* On failure, ss will contain a pseudo-random value.
+**************************************************/
+int crypto_kem_dec(uint8_t *ss,
+                   const uint8_t *ct,
+                   const uint8_t *sk)
+{
+  int fail;
+  uint8_t buf[2*KYBER_SYMBYTES];
+  /* Will contain key, coins */
+  uint8_t kr[2*KYBER_SYMBYTES];
+  uint8_t cmp[KYBER_CIPHERTEXTBYTES+KYBER_SYMBYTES];
+  const uint8_t *pk = sk+KYBER_INDCPA_SECRETKEYBYTES;
+
+  indcpa_dec(buf, ct, sk);
+
+  /* Multitarget countermeasure for coins + contributory KEM */
+  memcpy(buf+KYBER_SYMBYTES, sk+KYBER_SECRETKEYBYTES-2*KYBER_SYMBYTES, KYBER_SYMBYTES);
+  hash_g(kr, buf, 2*KYBER_SYMBYTES);
+
+  /* coins are in kr+KYBER_SYMBYTES */
+  indcpa_enc(cmp, buf, pk, kr+KYBER_SYMBYTES);
+
+  fail = verify(ct, cmp, KYBER_CIPHERTEXTBYTES);
+
+  /* Compute rejection key */
+  rkprf(ss,sk+KYBER_SECRETKEYBYTES-KYBER_SYMBYTES,ct);
+
+  /* Copy true key to return buffer if fail is false */
+  cmov(ss,kr,KYBER_SYMBYTES,!fail);
+
+  return 0;
+}
 
 #ifndef CPUCYCLES_H
 #define CPUCYCLES_H
@@ -2913,13 +2786,10 @@ void print_results(const char *s, uint64_t *t, size_t tlen) {
   printf("\n");
 }
 
-
 #define NTESTS 1000
 
 uint64_t t[NTESTS];
 uint8_t seed[KYBER_SYMBYTES] = {0};
-
-#include <time.h>
 
 int main(void)
 {
@@ -2997,6 +2867,12 @@ int main(void)
     printf("\nlen sssa= %u\n\n",j);
   }
   
-  printf("finish at 1427");
+  time_t current_time;
+  time(&current_time);
+  char* time_string = ctime(&current_time);
+    
+  printf("finish at: %s", time_string);
+  printf("end\n");
+
   return 0;
 }
