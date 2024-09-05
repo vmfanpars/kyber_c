@@ -2684,108 +2684,6 @@ int crypto_kem_dec(uint8_t *ss,
   return 0;
 }
 
-#ifndef CPUCYCLES_H
-#define CPUCYCLES_H
-
-#ifdef USE_RDPMC  /* Needs echo 2 > /sys/devices/cpu/rdpmc */
-
-static inline uint64_t cpucycles(void) {
-  const uint32_t ecx = (1U << 30) + 1;
-  uint64_t result;
-
-  __asm__ volatile ("rdpmc; shlq $32,%%rdx; orq %%rdx,%%rax"
-    : "=a" (result) : "c" (ecx) : "rdx");
-
-  return result;
-}
-
-#else
-
-static inline uint64_t cpucycles(void) {
-  uint64_t result;
-
-  __asm__ volatile ("rdtsc; shlq $32,%%rdx; orq %%rdx,%%rax"
-    : "=a" (result) : : "%rdx");
-
-  return result;
-}
-
-#endif
-
-uint64_t cpucycles_overhead(void);
-
-#endif
-
-
-uint64_t cpucycles_overhead(void) {
-  uint64_t t0, t1, overhead = -1LL;
-  unsigned int i;
-
-  for(i=0;i<100000;i++) {
-    t0 = cpucycles();
-    __asm__ volatile ("");
-    t1 = cpucycles();
-    if(t1 - t0 < overhead)
-      overhead = t1 - t0;
-  }
-
-  return overhead;
-}
-
-
-#ifndef PRINT_SPEED_H
-#define PRINT_SPEED_H
-
-void print_results(const char *s, uint64_t *t, size_t tlen);
-
-#endif
-
-
-static int cmp_uint64(const void *a, const void *b) {
-  if(*(uint64_t *)a < *(uint64_t *)b) return -1;
-  if(*(uint64_t *)a > *(uint64_t *)b) return 1;
-  return 0;
-}
-
-static uint64_t median(uint64_t *l, size_t llen) {
-  qsort(l,llen,sizeof(uint64_t),cmp_uint64);
-
-  if(llen%2) return l[llen/2];
-  else return (l[llen/2-1]+l[llen/2])/2;
-}
-
-static uint64_t average(uint64_t *t, size_t tlen) {
-  size_t i;
-  uint64_t acc=0;
-
-  for(i=0;i<tlen;i++)
-    acc += t[i];
-
-  return acc/tlen;
-}
-
-void print_results(const char *s, uint64_t *t, size_t tlen) {
-  size_t i;
-  static uint64_t overhead = -1;
-
-  if(tlen < 2) {
-    fprintf(stderr, "ERROR: Need a least two cycle counts!\n");
-    return;
-  }
-
-  if(overhead  == (uint64_t)-1)
-    overhead = cpucycles_overhead();
-
-  tlen--;
-  for(i=0;i<tlen;++i)
-    t[i] = t[i+1] - t[i] - overhead;
-
-  printf("%s\n", s);
-  printf("median: %llu cycles/ticks\n", (unsigned long long)median(t, tlen));
-  printf("average: %llu cycles/ticks\n", (unsigned long long)average(t, tlen));
-  printf("\n");
-}
-
 #define NTESTS 1000
 
 uint64_t t[NTESTS];
@@ -2804,8 +2702,8 @@ int main(void)
 
     // for(i=0;i<NTESTS;i++) {
   for(i=0;i<1;i++) {
-    // Key-pair generation
 
+    // Key-pair generation
     start = clock();
     crypto_kem_keypair(pk, sk);
     end = clock();
