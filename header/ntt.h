@@ -1,4 +1,4 @@
-#ifndef NTT_H
+#ifndef NTT_H   // number-theoretic transform
 #define NTT_H
 
 extern const int16_t zetas[128];

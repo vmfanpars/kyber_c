@@ -39,7 +39,7 @@ int main(void)
     printf("Public Key char: ");
     for(j=0;pk[j] || pk[j+1] || pk[j+2];j++)
       printf("%c",pk[j]);
-    printf("\nlen pk char= %u\n\n",j-1);
+    printf("\nlen pk char= %u\n\n",CRYPTO_PUBLICKEYBYTES);
 
     printf("Public Key: ");
     for(j=0;j<CRYPTO_PUBLICKEYBYTES;j++)
@@ -54,23 +54,24 @@ int main(void)
     printf("***   time pk and sk= %d milli second\n\n",(end-start));
     
     // Encapsulation
-    crypto_kem_enc(ct, key_b, pk);
+    crypto_kem_enc(ct, key_a, pk);
 
     printf("Ciphertext: ");
     for(j=0;j<CRYPTO_CIPHERTEXTBYTES;j++)
       printf("%02x",ct[j]);
     printf("\nlen ct= %u\n\n",j);
-    printf("Shared Secret B: ");
-    for(j=0;j<CRYPTO_BYTES;j++)
-      printf("%02x",key_b[j]);
-    printf("\nlen ssb= %u\n\n",j);
 
-    // Decapsulation
-    crypto_kem_dec(key_a, ct, sk);
     printf("Shared Secret A: ");
     for(j=0;j<CRYPTO_BYTES;j++)
       printf("%02x",key_a[j]);
     printf("\nlen ssa= %u\n\n",j);
+
+    // Decapsulation
+    crypto_kem_dec(key_b, ct, sk);
+    printf("Shared Secret B: ");
+    for(j=0;j<CRYPTO_BYTES;j++)
+      printf("%02x",key_b[j]);
+    printf("\nlen ssb= %u\n\n",j);
 
     for(j=0;j<CRYPTO_BYTES;j++) {
       if(key_a[j] != key_b[j]) {

@@ -5,6 +5,10 @@
         "verify.c": "c",
         "reduce.h": "c",
         "verify.h": "c",
-        "symmetric.h": "c"
+        "symmetric.h": "c",
+        "fips202.h": "c",
+        "kem.h": "c",
+        "polyvec.h": "c",
+        "param.h": "c"
     }
 }
