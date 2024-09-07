@@ -14,7 +14,6 @@
 #include "header/symmetric.h"
 #include "header/ntt.h"
 #include "header/poly.h"
-#include "header/cbd.h"
 #include "header/polyvec.h"
 #include "header/indcpa.h"
 #include "header/kem.h"
@@ -100,7 +99,7 @@ int main(void)
   char* time_string = ctime(&current_time);
     
   printf("finish at: %s", time_string);
-  printf("ends\n");
+  printf("end\n");
 
   return 0;
 }
