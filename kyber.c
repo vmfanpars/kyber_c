@@ -19,11 +19,6 @@
 #include "header/indcpa.h"
 #include "header/kem.h"
 
-#define NTESTS 1000
-
-uint64_t t[NTESTS];
-uint8_t seed[KYBER_SYMBYTES] = {0};
-
 int main(void)
 {
   unsigned int i,j;
@@ -105,7 +100,7 @@ int main(void)
   char* time_string = ctime(&current_time);
     
   printf("finish at: %s", time_string);
-  printf("end\n");
+  printf("ends\n");
 
   return 0;
 }
