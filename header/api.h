@@ -1,0 +1,27 @@
+#ifndef API_H
+#define API_H
+
+/* اندازه پارامترهای مختلف در الگوریتم‌های کایبر 512، 768 و 1024.
+pqcrystals_kyber512_SECRETKEYBYTES 1632
+pqcrystals_kyber512_PUBLICKEYBYTES 800
+pqcrystals_kyber512_CIPHERTEXTBYTES 768
+pqcrystals_kyber512_KEYPAIRCOINBYTES 64
+pqcrystals_kyber512_ENCCOINBYTES 32
+pqcrystals_kyber512_BYTES 32
+
+pqcrystals_kyber768_SECRETKEYBYTES 2400
+pqcrystals_kyber768_PUBLICKEYBYTES 1184
+pqcrystals_kyber768_CIPHERTEXTBYTES 1088
+pqcrystals_kyber768_KEYPAIRCOINBYTES 64
+pqcrystals_kyber768_ENCCOINBYTES 32
+pqcrystals_kyber768_BYTES 32
+
+pqcrystals_kyber1024_SECRETKEYBYTES 3168
+pqcrystals_kyber1024_PUBLICKEYBYTES 1568
+pqcrystals_kyber1024_CIPHERTEXTBYTES 1568
+pqcrystals_kyber1024_KEYPAIRCOINBYTES 64
+pqcrystals_kyber1024_ENCCOINBYTES 32
+pqcrystals_kyber1024_BYTES 32
+*/
+
+#endif

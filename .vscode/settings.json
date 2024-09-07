@@ -1,5 +1,10 @@
 {
     "files.associations": {
         "randombytes": "c",
+        "api.h": "c",
+        "verify.c": "c",
+        "reduce.h": "c",
+        "verify.h": "c",
+        "symmetric.h": "c"
     }
 }
