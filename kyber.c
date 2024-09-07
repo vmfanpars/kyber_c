@@ -29,7 +29,6 @@ int main(void)
 
   int start, end;
 
-    // for(i=0;i<NTESTS;i++) {
   for(i=0;i<1;i++) {
 
     // Key-pair generation
